@@ -6,7 +6,8 @@
 // 乐观并发：UPDATE ... WHERE seq = expectSeq —— serverless 多实例并发的原子性底线
 import { newRoomDoc } from './logic.js';
 
-const USE_PG = !!process.env.DATABASE_URL;
+// 兼容两种注入名：DATABASE_URL（手动/通用）与 POSTGRES_URL（Vercel Neon 集成自动注入）
+const USE_PG = !!(process.env.DATABASE_URL || process.env.POSTGRES_URL);
 
 // ---------- Postgres（postgres.js 直连任意 PG，Neon/Supabase/RDS 通吃）----------
 let _sql = null;
@@ -14,7 +15,7 @@ let _ready = null;
 async function ready() {
   if (_ready) return _ready;
   const { default: Postgres } = await import('postgres'); // 延迟加载：无 DB 环境不引驱动
-  _sql = Postgres(process.env.DATABASE_URL, { max: 3, prepare: false });
+  _sql = Postgres(process.env.DATABASE_URL || process.env.POSTGRES_URL, { max: 3, prepare: false });
   _ready = _sql`CREATE TABLE IF NOT EXISTS fxq_rooms (
     code TEXT PRIMARY KEY,
     seq INTEGER NOT NULL,
