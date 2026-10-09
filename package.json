@@ -1,0 +1,10 @@
+{
+  "name": "fxq-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "飞行棋 Vercel/Serverless 版 —— 长轮询 + Postgres 状态机（fxq-cf 的无 WS 适配）",
+  "engines": { "node": ">=18" },
+  "dependencies": { "postgres": "^3.4.5" },
+  "scripts": { "test": "node test/e2e.mjs" }
+}

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/state.js": { "maxDuration": 30 },
+    "api/action.js": { "maxDuration": 10 },
+    "api/new-room.js": { "maxDuration": 10 }
+  }
+}
